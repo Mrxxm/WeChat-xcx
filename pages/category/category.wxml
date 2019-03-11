@@ -1,0 +1,23 @@
+<import src="../tpls/category/category-tpl.wxml" />
+
+<view class='container category-container'>
+  <view class='category-box'>
+    <!--左边-->
+    <view class='left-box'>
+      <block wx:for="{{ categoryData }}" wx:key="unique">
+        <view class="menu-item {{ currentTabIndex == index ? 'selected' : '' }}" bindtap='onTabsItemTap' data-id="{{ item.id }}" data-index="{{ index }}">
+          {{ item.name }}
+        </view>
+      </block>
+    </view>
+
+    <!--右边-->
+    <view class='right-box'>
+      <view class='foods-type-box'>
+        <template is="categorydetail" data="{{ categoryInfo:categoryInfo }}">
+        </template>
+      </view>
+    </view>
+  
+  </view>
+</view>
