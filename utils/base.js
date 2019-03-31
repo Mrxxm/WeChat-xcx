@@ -1,5 +1,6 @@
 
-import { Config } from '../utils/config.js';
+import { Config } from 'config.js';
+import { Token } from 'token.js';
 
 class Base{
 
@@ -7,7 +8,9 @@ class Base{
     this.baseRequestUrl = Config.restUrl;
   }
 
-  request(params){
+  // 当noReFetch为true时，不做未授权重试机制
+  request(params, noRefetch){
+    var that = this;
     var url = this.baseRequestUrl + params.url;
     if (!params.type) {
       params.type = 'GET';
@@ -22,10 +25,30 @@ class Base{
         'token':wx.getStorageSync('token')
       },
       success:function(res) {
-        if(params.sCallBack){
-          params.sCallBack(res.data);
+
+        var code = res.statusCode.toString();
+        var startChar = code.charAt(0);
+
+        if (startChar == '2') {
+          params.sCallBack && params.sCallBack(res.data);
+        } else {
+
+          if (code == '401') {
+            // token.getTokenFromServer
+            // base.request
+            if (!noRefetch) {
+              that._refetch(params);
+            }
+          }
+          if (noRefetch) {
+            params.eCallBack && params.eCallBack(res.data);
+          }
         }
-        // params.sCallBack&&params.sCallBack(res);
+
+        // if(params.sCallBack){
+        //   params.sCallBack(res.data);
+        // }
+        
       },
       fail:function(err) {
 
@@ -37,6 +60,13 @@ class Base{
   getDataSet(event, key) {
     return event.currentTarget.dataset[key];
   };
+
+  _refetch(param) {
+    var token = new Token();
+    token.getTokenFromServer((token) => {
+      this.request(param, true);
+    });
+  }
 
 }
 
