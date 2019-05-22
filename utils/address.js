@@ -50,7 +50,7 @@ class Address extends Base {
     this.request(param);
   }
 
-  /*保存地址*/
+  /*编写保存的地址*/
   _setUpAddress(res, callback) {
     var formData = {
       name: res.userName,

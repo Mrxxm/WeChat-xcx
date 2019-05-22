@@ -122,7 +122,8 @@ Page({
     }
 
     // 这里就是修改页面绑定数据
-    this.data.cartData[index].counts += counts;
+    this.data.cartData = wx.getStorageSync("cart");
+    // this.data.cartData[index].counts += counts;
     // 调用重新计算关联数据方法 刷新页面绑定数据
     this.resetCartData(); 
   },

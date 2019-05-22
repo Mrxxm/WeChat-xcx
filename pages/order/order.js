@@ -20,27 +20,52 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    var productsArr;
-    this.data.account = options.account;
+    // var productsArr;
+    // this.data.account = options.account;
     
-    // 从缓存中获取选中的商品
-    productsArr = cart.getCartDataFromLocal(true);
+    // // 从缓存中获取选中的商品
+    // productsArr = cart.getCartDataFromLocal(true);
 
-    this.setData({
-      productsArr: productsArr,
-      account: options.account,
-      orderStatus: 0,
-    });
+    // this.setData({
+    //   productsArr: productsArr,
+    //   account: options.account,
+    //   orderStatus: 0,
+    // });
 
-    // 显示收货地址
-    address.getAddress((res) => {
-      var addressInfo = {
-        name: res.name,
-        mobile: res.mobile,
-        totalDetail: address.setAddressInfo(res),
-      }
-      this.bindAddressInfo(addressInfo);
-    })
+    // // 显示收货地址
+    // address.getAddress((res) => {
+    //   var addressInfo = {
+    //     name: res.name,
+    //     mobile: res.mobile,
+    //     totalDetail: address.setAddressInfo(res),
+    //   }
+    //   this.bindAddressInfo(addressInfo);
+    // })
+
+    var flag = options.from == 'cart',
+      that = this;
+    this.data.fromCartFlag = flag;
+    this.data.account = options.account;
+
+    //来自于购物车
+    if (flag) {
+      this.setData({
+        productsArr: cart.getCartDataFromLocal(true),
+        account: options.account,
+        orderStatus: 0
+      });
+
+      /*显示收获地址*/
+      address.getAddress((res) => {
+        that._bindAddressInfo(res);
+      });
+    }
+
+    //旧订单
+    else {
+      // 这里id只要有值 就会触发onShow里面的方法
+      this.data.id = options.id;
+    }
   },
 
   // 购物车下单触发的事件
@@ -114,6 +139,10 @@ Page({
         that._orderFail(data);  // 下单失败
       }
     });
+  },
+  /* 再次次支付*/
+  oneMoresTimePay: function () {
+    this._execPay(this.data.id);
   },
 
   /*
@@ -209,13 +238,6 @@ Page({
   },
 
   /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
-
-  },
-
-  /**
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
@@ -242,38 +264,5 @@ Page({
     }
   },
 
-  /**
-   * 生命周期函数--监听页面隐藏
-   */
-  onHide: function () {
-
-  },
-
-  /**
-   * 生命周期函数--监听页面卸载
-   */
-  onUnload: function () {
-
-  },
-
-  /**
-   * 页面相关事件处理函数--监听用户下拉动作
-   */
-  onPullDownRefresh: function () {
-
-  },
-
-  /**
-   * 页面上拉触底事件的处理函数
-   */
-  onReachBottom: function () {
-
-  },
-
-  /**
-   * 用户点击右上角分享
-   */
-  onShareAppMessage: function () {
-
-  }
+  
 })

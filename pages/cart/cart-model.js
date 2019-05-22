@@ -106,8 +106,8 @@ class Cart extends Base {
   changeCounts(id, counts) {
     var cartData = this.getCartDataFromLocal();
     var hasInfo = this.isHasThatOne(id, cartData);
-    if (hasInfo != -1) {
-      if (hasInfo.data.counts > 1) {
+    if (hasInfo.index != -1) {
+      if (hasInfo.data.counts >= 1) {
         cartData[hasInfo.index].counts += counts;
       }
     }

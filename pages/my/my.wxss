@@ -19,6 +19,9 @@
 .my-header text{
     margin-left: 20rpx;
 }
+.my-info{
+    background-color: #fff;
+}
 .my-address{
     background-color: #fff;
 }

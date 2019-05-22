@@ -44,10 +44,6 @@ class Base{
             params.eCallBack && params.eCallBack(res.data);
           }
         }
-
-        // if(params.sCallBack){
-        //   params.sCallBack(res.data);
-        // }
         
       },
       fail:function(err) {
@@ -63,7 +59,7 @@ class Base{
 
   _refetch(param) {
     var token = new Token();
-    token.getTokenFromServer((token) => {
+    token.getTokenFromServer(() => {
       this.request(param, true);
     });
   }

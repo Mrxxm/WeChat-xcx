@@ -70,7 +70,7 @@ class Order extends Base {
     var that = this;
     var allParams = {
       url: 'order/' + id,
-      sCallback: function (data) {
+      sCallBack: function (data) {
         callback && callback(data);
       },
       eCallback: function () {
@@ -78,6 +78,28 @@ class Order extends Base {
       }
     };
     this.request(allParams);
+  }
+
+  // my页面添加
+  /*获得所有订单,pageIndex 从1开始*/
+  getOrders(pageIndex, callback) {
+    var allParams = {
+      url: 'order/by_user',
+      data: { page: pageIndex },
+      type: 'get',
+      sCallBack: function (data) {
+        callback && callback(data);  //1 未支付  2，已支付  3，已发货，4已支付，但库存不足
+      }
+    };
+    this.request(allParams);
+  }
+
+  // my页面添加 最后刷新使用
+  // 每次有新的订单生成标志位都会置为true
+  /*判断是否有新的订单*/
+  hasNewOrder() {
+    var flag = wx.getStorageSync(this._storageKeyName);
+    return flag == true;
   }
 
 }
