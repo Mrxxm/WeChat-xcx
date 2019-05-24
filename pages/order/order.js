@@ -57,7 +57,12 @@ Page({
 
       /*显示收获地址*/
       address.getAddress((res) => {
-        that._bindAddressInfo(res);
+        var addressInfo = {
+        name: res.name,
+        mobile: res.mobile,
+        totalDetail: address.setAddressInfo(res),
+      }
+        that.bindAddressInfo(addressInfo);
       });
     }
 
