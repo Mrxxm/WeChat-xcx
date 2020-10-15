@@ -5,6 +5,6 @@ class Config{
   }
 }
 
-Config.restUrl = 'http://www.think.com/api/v1/';
+Config.restUrl = 'https://www.kenrou.cn/api/v1/';
 
 export { Config };

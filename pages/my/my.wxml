@@ -1,13 +1,12 @@
-
 <view class="container my-container" >
   <view class="my-header">
     <image src="{{userInfo.avatarUrl}}"></image>
     <text class="name">{{userInfo.nickName}}</text>
   </view>
 
-  <view class="my-info">
+  <!-- <view class="my-info">
     <button class="item-title" open-type="getUserInfo" lang="zh_CN" bindgetuserinfo="onGotUserInfo">获取用户信息</button>
-  </view>
+  </view> -->
 
   <!--地址管理-->
   <view class="my-address">
